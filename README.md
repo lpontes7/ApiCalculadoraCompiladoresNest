@@ -1,2 +1,6 @@
 # CalculadoraJS
-Calculadora JavaScript pegando uma expressão e retornando a resposta 
+
+API Calculadora em Node usando framework NestJs.  
+
+Calculadora formulada com base em compiladores
+Enviamos uma expressao e ela retorna o resultado. 
