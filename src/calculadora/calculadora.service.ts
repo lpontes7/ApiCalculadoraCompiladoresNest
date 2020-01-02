@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { cornsilk } from 'color-name';
 
 @Injectable()
 export class CalculadoraService {
@@ -12,7 +13,7 @@ export class CalculadoraService {
         var j = 0;
 
 
-        // verificando para o primeiro caracter 
+        // verificando se é o primeiro caracter 
         var checar0 = await this.isNumber(caracteres[0]); 
         
         if(checar0===true){
@@ -47,19 +48,79 @@ export class CalculadoraService {
             }
         }
     
-        return {expressaoNumerosAgrupados}; 
+        return expressaoNumerosAgrupados; 
 
     }
 
 
-    async lexer (aray: string[]) {
-        return;
+    async lexer (array: string[]) {
+        
+
+        const token= { value: String, type: String};
+
+        for (var i = 0; i < array.length; i++) {                            
+
+            switch  ( array[i] )  {                                    
+
+              case  '(' :  
+                token [i] = {  value: "(" , type: "OP"}; 
+                
+              break ;      
+              
+              case  ')' :  
+                token [i] = {  value: ")" , type: "Op"};  
+              break ;     
+              
+              case  '{' :  
+                token [i] = {  value: "{" , type: "Op"};  
+              break ;      
+              
+              case  '}' :  
+                token [i] = {  value: "}" , type: "Op"};  
+              break ;    
+              
+              case  ',' :  
+                token [i] = {  value: "," , type: "Op"};  
+              break ;           
+              
+              case  '.' :  
+                token [i] = {  value: "." , type: "Op"};  
+              break ;             
+              
+              case  '-' :  
+                token [i] = {  value: "-" , type: "Op"};  
+              break ;           
+              
+              case  '+' :  
+                token [i] = {  value: "+" , type: "Op"}; 
+              break ;            
+            
+              case  '*' :  
+                token [i] = { value: "*" , type: "Op"}; 
+              break ;
+              
+              default:
+
+                token[i] = { value: array[i] , type: "Num"}; 
+                    
+            }
+
+        }      
+
+        return token ;
     }
 
-    async arvore(expressao: string) {
-        return ;
+    async arvore(lexe : { value: StringConstructor, type: StringConstructor} ) {
+       
+      const resultado = lexe;
+      
+      return resultado;
     }
 
+
+    //S -> A (+ | -) A | NUM
+    //A -> B (* | /) B | NUM
+    //B -> ( S ) | NUM
 
     async isNumber(str) {
         return !isNaN(str)
