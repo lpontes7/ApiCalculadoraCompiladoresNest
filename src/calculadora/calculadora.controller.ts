@@ -11,9 +11,7 @@ export class CalculadoraController {
     async create( @Body() insertCalculadora: InsertCalculadora ) {
         const {expressao} = insertCalculadora;
 
-        const scanner = await this.calculadoraService.scanner(expressao)
-
-        const lexe = await this.calculadoraService.lexer(scanner)
+        const lexe = await this.calculadoraService.lexer(expressao)
 
         const arvore = await this.calculadoraService.arvore(lexe)
 

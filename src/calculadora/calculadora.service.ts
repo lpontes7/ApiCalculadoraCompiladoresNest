@@ -1,130 +1,118 @@
 import { Injectable } from '@nestjs/common';
-import { cornsilk } from 'color-name';
 
 @Injectable()
 export class CalculadoraService {
 
-    async scanner(expressao: string) {
+  async lexer(expressao: string) {
 
-        //separando a expressa em caracteres 
-        const caracteres = expressao.split('');
+    const caracteres = expressao.split('');
 
-        const expressaoNumerosAgrupados: string[]=[];
-        var j = 0;
+    const token = { value: String, type: String };
+    var j = 0;
+    var numero = null;
+
+    for (var i = 0; i < caracteres.length; i++) {
+
+      switch (caracteres[i]) {
+
+        case '(':
+          j++
+          token[j] = { value: "(", type: "OP" };
+          j++;
+          numero = null;
+          break;
+
+        case ')':
+          j++
+          token[j] = { value: ")", type: "Op" };
+          j++;
+          numero = null;
+          break;
+
+        case '{':
+          j++
+          token[j] = { value: "{", type: "Op" };
+          j++;
+          numero = null;
+          break;
+
+        case '}':
+          j++
+          token[j] = { value: "}", type: "Op" };
+          j++;
+          numero = null;
+          break;
+
+        case ',':
+          j++
+          token[j] = { value: ",", type: "Op" };
+          j++;
+          numero = null;
+          break;
+
+        case '.':
+          j++
+          token[j] = { value: ".", type: "Op" };
+          j++;
+          numero = null;
+          break;
+
+        case '-':
+          j++
+          token[j] = { value: "-", type: "Op" };
+          j++;
+          numero = null;
+          break;
+
+        case '+':
+          j++
+          token[j] = { value: "+", type: "Op" };
+          j++;
+          numero = null;
+          break;
+
+        case '*':
+          j++
+          token[j] = { value: "*", type: "Op" };
+          j++;
+          numero = null;
+          break;
 
 
-        // verificando se é o primeiro caracter 
-        var checar0 = await this.isNumber(caracteres[0]); 
-        
-        if(checar0===true){
-            expressaoNumerosAgrupados[0]=caracteres[0];
-        
-        }else{ (checar0===false)        
-            expressaoNumerosAgrupados[0]=caracteres[0];
-            j++;
-        }    
+        default:
 
-        //entrando no for para o restante:
-        for (var i = 1; i < caracteres.length; i++) {
 
-            var checar = await this.isNumber(caracteres[i]);
+          if (this.isNumber(caracteres[i])) {
 
-            if (checar === true){
-                if (expressaoNumerosAgrupados[j] == null || expressaoNumerosAgrupados[j] == undefined ){
-                    expressaoNumerosAgrupados[j]= caracteres[i];     
-                }else{
-                    expressaoNumerosAgrupados[j]+= caracteres[i];
-                }
-            
-            } else{ (checar === false) 
-                if (expressaoNumerosAgrupados[j] == null || expressaoNumerosAgrupados[j] == undefined ){
-                    expressaoNumerosAgrupados[j]= caracteres[i];
-                    j++
-                }else{
-                    j++
-                    expressaoNumerosAgrupados[j]= caracteres[i];     
-                    j++;
-                }    
+            if (numero == null) {
+              numero = caracteres[i];
+            } else {
+              numero += caracteres[i]
             }
-        }
-    
-        return expressaoNumerosAgrupados; 
+          }
 
+          token[j] = { value: numero, type: "Num" };
+      }
     }
 
+    return token;
+  }
 
-    async lexer (array: string[]) {
-        
-
-        const token= { value: String, type: String};
-
-        for (var i = 0; i < array.length; i++) {                            
-
-            switch  ( array[i] )  {                                    
-
-              case  '(' :  
-                token [i] = {  value: "(" , type: "OP"}; 
-                
-              break ;      
-              
-              case  ')' :  
-                token [i] = {  value: ")" , type: "Op"};  
-              break ;     
-              
-              case  '{' :  
-                token [i] = {  value: "{" , type: "Op"};  
-              break ;      
-              
-              case  '}' :  
-                token [i] = {  value: "}" , type: "Op"};  
-              break ;    
-              
-              case  ',' :  
-                token [i] = {  value: "," , type: "Op"};  
-              break ;           
-              
-              case  '.' :  
-                token [i] = {  value: "." , type: "Op"};  
-              break ;             
-              
-              case  '-' :  
-                token [i] = {  value: "-" , type: "Op"};  
-              break ;           
-              
-              case  '+' :  
-                token [i] = {  value: "+" , type: "Op"}; 
-              break ;            
-            
-              case  '*' :  
-                token [i] = { value: "*" , type: "Op"}; 
-              break ;
-              
-              default:
-
-                token[i] = { value: array[i] , type: "Num"}; 
-                    
-            }
-
-        }      
-
-        return token ;
-    }
-
-    async arvore(lexe : { value: StringConstructor, type: StringConstructor} ) {
-       
-      const resultado = lexe;
-      
-      return resultado;
-    }
+  async arvore(lexe: { value: StringConstructor, type: StringConstructor }) {
 
 
-    //S -> A (+ | -) A | NUM
+    //S -> A (+ || -) A | NUM
     //A -> B (* | /) B | NUM
     //B -> ( S ) | NUM
 
-    async isNumber(str) {
-        return !isNaN(str)
-    }
+
+    return lexe;
+
+  }
+
+  async isNumber(str) {
+    return !isNaN(str)
+  }
 
 
 }
