@@ -94,6 +94,8 @@ export class CalculadoraService {
       const subs = this.s(lexe);
       return { a, op, subs };
     }
+
+    return { a };
   }
 
   indice = 0;
