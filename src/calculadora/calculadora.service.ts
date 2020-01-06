@@ -3,114 +3,112 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class CalculadoraService {
 
-  async lexer(expressao: string) {
+  lexer(expressao: string) {
 
     const caracteres = expressao.split('');
 
-    const token = { value: String, type: String };
-    var j = 0;
-    var numero = null;
-
-    for (var i = 0; i < caracteres.length; i++) {
-
+    //const token = { value: String, type: String };
+    const tokens = [];
+    
+    for (let i = 0; i < caracteres.length;) {
       switch (caracteres[i]) {
-
         case '(':
-          j++
-          token[j] = { value: "(", type: "OP" };
-          j++;
-          numero = null;
+          tokens.push({ value: "(", type: "OP" });
+          i++;
           break;
 
         case ')':
-          j++
-          token[j] = { value: ")", type: "Op" };
-          j++;
-          numero = null;
+          tokens.push({ value: ")", type: "Op" });
+          i++;
           break;
 
         case '{':
-          j++
-          token[j] = { value: "{", type: "Op" };
-          j++;
-          numero = null;
+          tokens.push({ value: "{", type: "Op" });
+          i++;
           break;
 
         case '}':
-          j++
-          token[j] = { value: "}", type: "Op" };
-          j++;
-          numero = null;
+          tokens.push({ value: "}", type: "Op" });
+          i++;
           break;
 
         case ',':
-          j++
-          token[j] = { value: ",", type: "Op" };
-          j++;
-          numero = null;
+          tokens.push({ value: ",", type: "Op" });
+          i++;
           break;
 
         case '.':
-          j++
-          token[j] = { value: ".", type: "Op" };
-          j++;
-          numero = null;
+          tokens.push({ value: ".", type: "Op" });
+          i++;
           break;
 
         case '-':
-          j++
-          token[j] = { value: "-", type: "Op" };
-          j++;
-          numero = null;
+          tokens.push({ value: "-", type: "Op" });
+          i++;
           break;
 
         case '+':
-          j++
-          token[j] = { value: "+", type: "Op" };
-          j++;
-          numero = null;
+          tokens.push({ value: "+", type: "Op" });
+          i++;
           break;
 
         case '*':
-          j++
-          token[j] = { value: "*", type: "Op" };
-          j++;
-          numero = null;
+          tokens.push({ value: "*", type: "Op" });
+          i++;
           break;
 
-
         default:
+          let lookahead = 0;
+          let numero = '';
 
+          while (this.isNumber(caracteres[i + lookahead])) {
+              numero += caracteres[i + lookahead];
 
-          if (this.isNumber(caracteres[i])) {
-
-            if (numero == null) {
-              numero = caracteres[i];
-            } else {
-              numero += caracteres[i]
-            }
+              lookahead++;
           }
 
-          token[j] = { value: numero, type: "Num" };
+          tokens.push({ value: numero, type: "Num" });
+
+          i += lookahead;
       }
     }
 
-    return token;
+    return tokens;
   }
 
-  async arvore(lexe: { value: StringConstructor, type: StringConstructor }) {
+  b() {
 
+  }
 
-    //S -> A (+ || -) A | NUM
-    //A -> B (* | /) B | NUM
+  a() {
+
+  }
+  
+  s(lexe: Array<{ value: string, type: string }>) {
+    const a = this.a();
+
+    const op = lexe[this.indice];
+
+    if (op.value === "+" || op.value === '-') {
+      this.indice++;
+      const subs = this.s(lexe);
+      return { a, op, subs };
+    }
+  }
+
+  indice = 0;
+
+  arvore(lexe: Array<{ value: string, type: string }>) {
+
+    //S -> A (+ || -) S | A
+    //A -> B (* | /) A | B
     //B -> ( S ) | NUM
-
 
     return lexe;
 
   }
 
-  async isNumber(str) {
+  isNumber(str) {
     return !isNaN(str)
   }
 
