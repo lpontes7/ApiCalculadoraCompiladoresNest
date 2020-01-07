@@ -9,7 +9,7 @@ export class CalculadoraService {
 
     //const token = { value: String, type: String };
     const tokens = [];
-    
+
     for (let i = 0; i < caracteres.length;) {
       switch (caracteres[i]) {
         case '(':
@@ -62,9 +62,9 @@ export class CalculadoraService {
           let numero = '';
 
           while (this.isNumber(caracteres[i + lookahead])) {
-              numero += caracteres[i + lookahead];
+            numero += caracteres[i + lookahead];
 
-              lookahead++;
+            lookahead++;
           }
 
           tokens.push({ value: numero, type: "Num" });
@@ -76,16 +76,38 @@ export class CalculadoraService {
     return tokens;
   }
 
-  b() {
+  b(lexe: Array<{ value: string, type: string }>) {
+    const s = this.s(lexe);
+
+    const op = lexe[this.indice];
+
+     
+    if (op.type === "(" || op.type === ")"  ) {
+      this.indice++;
+      return { s };
+    }
+
+    return { op };
 
   }
 
-  a() {
+  a(lexe: Array<{ value: string, type: string }>) {
+    const b = this.b(lexe);
 
+    const op = lexe[this.indice];
+
+    if (op.value === "*" || op.value === '/') {
+      this.indice++;
+      const subs = this.a(lexe);
+      return { b, op, subs };
+    }
+
+    return {b};
   }
-  
+
+
   s(lexe: Array<{ value: string, type: string }>) {
-    const a = this.a();
+    const a = this.a(lexe);
 
     const op = lexe[this.indice];
 
@@ -100,13 +122,15 @@ export class CalculadoraService {
 
   indice = 0;
 
-  arvore(lexe: Array<{ value: string, type: string }>) {
-
     //S -> A (+ || -) S | A
     //A -> B (* | /) A | B
     //B -> ( S ) | NUM
 
-    return lexe;
+  arvore(lexe: Array<{ value: string, type: string }>) {
+
+    let resultado = this.s(lexe);
+
+    return resultado ;
 
   }
 
