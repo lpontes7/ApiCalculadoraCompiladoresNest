@@ -13,9 +13,11 @@ export class CalculadoraController {
 
         const lexe = this.calculadoraService.lexer(expressao)
 
-        const arvore = this.calculadoraService.arvore(lexe)
+        const arvore = this.calculadoraService.arvore(lexe )
 
-        return { mensagem: 'Resultado', arvore};
+        const resultado = this.calculadoraService.resultado(arvore);
+
+        return {resultado};
     }
 
 }
