@@ -1,7 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class InsertCalculadora {
-    @ApiProperty()
-     expressao?: string;
+  @ApiProperty()
+  expressao?: string;
 }
-

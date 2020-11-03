@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
+import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
+import { join } from 'path';
 import { CalculadoraModule } from './calculadora/calculadora.module';
 
 @Module({
-  imports: [CalculadoraModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'view'),
+    }),
+    CalculadoraModule,
+  ],
 })
 export class AppModule {}

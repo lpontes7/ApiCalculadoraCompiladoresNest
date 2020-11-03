@@ -4,6 +4,6 @@ import { CalculadoraService } from './calculadora.service';
 
 @Module({
   controllers: [CalculadoraController],
-  providers: [CalculadoraService]
+  providers: [CalculadoraService],
 })
 export class CalculadoraModule {}
