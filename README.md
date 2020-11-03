@@ -16,12 +16,12 @@
 
 ### 1.2 Configurações do Projeto 
 
-Comece clonando o repositorio para sua máquina. 
+Comece clonando o repositório para sua máquina. 
 
 ```sh
 git clone https://github.com/lpontes7/CalculadoraCompiladoresApiNestJs.git
 ```
-Instale as dependencias do projeto 
+Instale as dependências do projeto 
 
 ```sh
 npm install
@@ -34,7 +34,7 @@ Use o comando
 ```sh
 npm run dev
 ```
-Acesse a porta 3000 para vê a documentação da API com o Swagger e todos seus endpoints. 
+Acesse a porta 3000 para vê a documentação da API com o Swagger e seu único endpoints. 
 
 ```sh
 http://localhost:3000/api
