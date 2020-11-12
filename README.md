@@ -39,4 +39,10 @@ Acesse a porta 3000 para vê a documentação da API com o Swagger e seu único 
 ```sh
 http://localhost:3000/api
 ```
+
+### Agradecimento
+
+- <a href="https://github.com/vitorhnn">Victor Hermann Chiletto</a>
+obrigado por toda ajuda durante o desenvolvimento do projeto :)
+
  
